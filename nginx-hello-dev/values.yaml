@@ -1,0 +1,82 @@
+cloudinary-base:  
+  ### General details
+  serviceName: nginx-hello
+  environment: staging
+  component: testing-component
+  team: devops
+  slackChannel: tztest
+  
+  ### K8s manifests configuration
+  #
+  image:
+    repository: nginxdemos/hello #232482882421.dkr.ecr.us-east-1.amazonaws.com/sample-go-service
+    #  Image tag whose default is the chart appVersion.
+    tag: latest #staging
+  
+  environmentVariables:
+    ENVIRONMENT: staging
+    SAMPLE_DB_PORT: 3306
+    SAMPLE_DB_ADDRESS: staging-sample-go-service-db.cloudinary.com
+    SAMPLE_DB_PASS: G6Gkfdjj*JDta
+    SAMPLE_DB_USER: root
+    SAMPLE_LOAD_SECRETS: false
+  
+  # Select node CPU/GPU
+  nodeSelector:
+    NodeType: CPU
+  
+  # Choose container port
+  service:
+    port: 80 #8654
+  
+    # Allow ingress (ALB access), classes: [nginx-internal, nginx-external]
+  ingress:
+    enabled: true
+    className: "nginx-external"
+    annotations: {}
+    hosts:
+      - host: nginx-hello.cloudinary-dev.com
+      - host: nginx-hello-us.cloudinary-dev.com
+
+  # Autoscaling configuration
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 95
+  
+  # Configure replicas  In case HPA (autoscaling) is not in use
+  replicas: 1
+  
+  # Configure resources and limits
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  
+ # Enable prometheus.io style monitoring (add prometheus annotations)
+  openmetrics:
+  enabled: false
+  path: /metrics
+  # openmetric port, default: service port
+  #port: 80
+
+# Service account creation - if need to associate IAM role (for bucket access/queue etc)
+  # serviceAccount:
+  #   create: true
+  #   annotations:
+  #     eks.amazonaws.com/role-arn: # ARN
+
+  # Change probes if you want custom probs, port: http is service port
+  # Healthcheck
+  #livenessProbe:
+  #   path: /
+  #   port: http # Http is alias for service port
+  
+  #readinessProbe:
+  #   path: / 
+  #   port: http #Http is alias for service port
