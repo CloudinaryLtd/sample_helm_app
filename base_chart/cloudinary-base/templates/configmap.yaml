@@ -1,0 +1,10 @@
+{{- if .Values.environmentVariables }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}
+data:
+{{- range $k, $v := .Values.environmentVariables }}
+  {{ $k }}: {{ $v | quote }}
+{{- end }}
+{{- end }}
