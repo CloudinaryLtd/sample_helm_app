@@ -75,3 +75,10 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+SSL secret name
+*/}}
+{{- define "sslSecretName" -}}
+{{- printf "%s-%s-ssl" .Values.serviceName .Values.environment }}
+{{- end }}
