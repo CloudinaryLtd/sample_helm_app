@@ -33,7 +33,6 @@ cloudinary-base:
   ingress:
     enabled: true
     className: "nginx-external"
-    annotations: {}
     hosts:
       - host: nginx-hello.cloudinary-dev.com
       - host: nginx-hello-us.cloudinary-dev.com

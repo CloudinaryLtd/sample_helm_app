@@ -1,0 +1,20 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    {{- include "labels" . | nindent 4 }}  
+spec:
+  secretName: {{ include "sslSecretName" . }}
+  subject:
+    organizations:
+      - cloudinary
+  dnsNames:
+    {{- range .Values.ingress.hosts }}
+    - {{ .host | quote }}
+    {{- end }}
+  issuerRef:
+    name: cert-manager-letsencrypt-production-route53
+    kind: ClusterIssuer
+{{- end -}}
