@@ -1,0 +1,2 @@
+image:
+    tag: latest # Here we should have the relevant tag, that should be deployed to preprod
