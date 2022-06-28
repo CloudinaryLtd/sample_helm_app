@@ -1,4 +1,7 @@
+{{- $name := include "fullname" . -}}
+
 {{- if .Values.ingress.enabled -}}
+{{- if not (lookup "cert-manager.io/v1" "Certificate" .Release.Namespace $name) }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -17,4 +20,5 @@ spec:
   issuerRef:
     name: cert-manager-letsencrypt-production-route53
     kind: ClusterIssuer
+{{- end }}
 {{- end -}}
