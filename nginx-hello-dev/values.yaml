@@ -1,4 +1,4 @@
-cloudinary-base:  
+cloudinary_base:
   ### General details
   serviceName: nginx-hello
   environment: staging
