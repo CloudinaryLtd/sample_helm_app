@@ -1,2 +1,0 @@
-image:
-    repository: nginxdemos/hello # Here we should have the ECR repo for this region (232482882421.dkr.ecr.us-east-1.amazonaws.com/sample-go-service)
